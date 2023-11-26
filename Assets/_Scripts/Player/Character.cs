@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
 
 	bool isWaiting = false;
 
-	//public World world;
+	public World world;
 
 	private void Awake()
 	{
@@ -30,7 +30,7 @@ public class Character : MonoBehaviour
 			mainCamera = Camera.main;
 		playerInput = GetComponent<PlayerInput>();
 		playerMovement = GetComponent<PlayerMovement>();
-		//world = FindObjectOfType<World>();
+		world = FindObjectOfType<World>();
 	}
 
 	private void Start()
@@ -83,19 +83,15 @@ public class Character : MonoBehaviour
 	{
 		Ray playerRay = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
 		RaycastHit hit;
-		/*if (Physics.Raycast(playerRay, out hit, interactionRayLength, groundMask))
+		if (Physics.Raycast(playerRay, out hit, interactionRayLength, groundMask))
 		{
 			ModifyTerrain(hit);
-		}*/
+		}
 
 	}
 
-	/*private void ModifyTerrain(RaycastHit hit)
+	private void ModifyTerrain(RaycastHit hit)
 	{
 		world.SetBlock(hit, BlockType.Air);
-	}*/
-
-
-
-
+	}
 }

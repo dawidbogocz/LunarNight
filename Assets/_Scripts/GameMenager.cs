@@ -1,10 +1,10 @@
-/*using Cinemachine;
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameMenager : MonoBehaviour
 {
 	public GameObject playerPrefab;
 	private GameObject player;
@@ -62,4 +62,4 @@ public class GameManager : MonoBehaviour
 		currentChunkCenter.x = currentPlayerChunkPosition.x + world.chunkSize / 2;
 		currentChunkCenter.z = currentPlayerChunkPosition.z + world.chunkSize / 2;
 	}
-}*/
+}

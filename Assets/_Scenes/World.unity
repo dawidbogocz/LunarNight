@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: 0.3
+    NearClipPlane: 0.03
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -737,6 +737,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1009909513}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
+        m_MethodName: set_interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1009909514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,14 +876,14 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.03
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1111,6 +1123,56 @@ Transform:
   m_Father: {fileID: 1743188951}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1724486135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1724486137}
+  - component: {fileID: 1724486136}
+  m_Layer: 0
+  m_Name: GameMenager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1724486136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724486135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da65689425474f43978b0d72e3b0bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 116692708104115924, guid: d43e9bef6cf8dc74dbbc13269406cc57,
+    type: 3}
+  currentPlayerChunkPosition: {x: 0, y: 0, z: 0}
+  world: {fileID: 1872146805}
+  detectionTime: 1
+  camera_VM: {fileID: 845549331}
+--- !u!4 &1724486137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724486135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1107855, y: 8.43276, z: 14.004255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1743188949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872146806}
   - component: {fileID: 1872146805}
+  - component: {fileID: 1872146807}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -1211,13 +1274,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c873d429ac8fa384ab1893f0f785c291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSizeInChunks: 6
+  mapSizeInChunks: 10
   chunkSize: 16
   chunkHeight: 100
+  chunkDrawingRange: 2
   chunkPrefab: {fileID: 8455380494660648332, guid: 3886487bffdac434f8a13ed31b838d5c,
     type: 3}
   terrainGenerator: {fileID: 1388094730}
   mapSeedOffset: {x: 0, y: 0}
+  OnWorldCreated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1724486136}
+        m_TargetAssemblyTypeName: GameMenager, Assembly-CSharp
+        m_MethodName: SpawnPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnNewChunksGenerated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1724486136}
+        m_TargetAssemblyTypeName: GameMenager, Assembly-CSharp
+        m_MethodName: StartCheckingTheMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  worldRenderer: {fileID: 1872146807}
 --- !u!4 &1872146806
 Transform:
   m_ObjectHideFlags: 0
@@ -1233,6 +1328,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1872146807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872146804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9ada494ea37b9408d983b2f9f0563f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkPrefab: {fileID: 8455380494660648332, guid: 3886487bffdac434f8a13ed31b838d5c,
+    type: 3}
 --- !u!1 &2022037667
 GameObject:
   m_ObjectHideFlags: 0

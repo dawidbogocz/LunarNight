@@ -22,7 +22,7 @@ public class BiomeGenerator : MonoBehaviour
 		noiseSettings.worldOffset = mapSeedOffset;
 		int groundPos = GetSurfaceHeightNoise(data.chunkWorldPos.x + x,data.chunkWorldPos.z + z, data.chunkHeight);
 
-		for (int y = 0; y < data.chunkHeight; y++)
+		for (int y = data.chunkWorldPos.y; y < data.chunkWorldPos.y + data.chunkHeight; y++)
 		{
 			biomeLayerHandler.Handle(data, x, y, z, groundPos, mapSeedOffset);
 		}
