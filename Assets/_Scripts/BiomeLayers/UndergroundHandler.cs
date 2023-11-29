@@ -9,7 +9,7 @@ public class UndergroundHandler : BiomeLayerHandler
 	{
 		if (y < surfaceHeightNoise)
 		{
-			Vector3Int pos = new Vector3Int(x, y, z);
+			Vector3Int pos = new Vector3Int(x, y - chunkData.chunkWorldPos.y, z);
 			Chunk.SetBlock(chunkData, pos, undergroundBlockType);
 			return true;
 		}
