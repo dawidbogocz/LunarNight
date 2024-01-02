@@ -27,7 +27,7 @@ public static class BiomeCenterFinder
 
         HashSet<Vector3Int> biomCentersTemp = new HashSet<Vector3Int>();
 
-        biomCentersTemp.Add(origin);
+		biomCentersTemp.Add(origin);
 
         foreach (Vector2Int offsetXZ in neighbours8Directions)
         {

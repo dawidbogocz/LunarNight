@@ -9,12 +9,16 @@ public class TerrainGenerator : MonoBehaviour
 
     [SerializeField]
     List<Vector3Int> biomeCenters = new List<Vector3Int>();
-    List<float> biomeNoise = new List<float>();
+    List<float> biomeTempNoise = new List<float>();
+    List<float> biomeHumiNoise = new List<float>();
 
     [SerializeField]
-    private NoiseSettings biomeNoiseSettings;
+    private NoiseSettings biomeNoiseTempSettings;
 
-    public DomainWarping biomeDomainWarping;
+	[SerializeField]
+	private NoiseSettings biomeNoiseHumiSettings;
+
+	public DomainWarping biomeDomainWarping;
 
     [SerializeField]
     private List<BiomeData> biomeGeneratorsData = new List<BiomeData>();
@@ -70,14 +74,16 @@ public class TerrainGenerator : MonoBehaviour
 
     private BiomeGenerator SelectBiome(int index)
     {
-        float temp = biomeNoise[index];
-        foreach (var data in biomeGeneratorsData)
+        float temp = biomeTempNoise[index];
+		float humidity = biomeHumiNoise[index];
+		foreach (var data in biomeGeneratorsData)
         {
-            if (temp >= data.temperatureStartThreshold && temp < data.temperatureEndThreshold)
-                return data.biomeTerrainGenerator;
-        }
-        return biomeGeneratorsData[0].biomeTerrainGenerator;
-    }
+			if (temp >= data.temperatureStartThreshold && temp < data.temperatureEndThreshold
+			&& humidity >= data.humidityStartThreshold && humidity < data.humidityEndThreshold)
+				return data.biomeTerrainGenerator;
+		}
+		return biomeGeneratorsData[0].biomeTerrainGenerator;
+	}
 
     private List<BiomeSelectionHelper> GetBiomeGeneratorSelectionHelpers(Vector3Int position)
     {
@@ -112,13 +118,20 @@ public class TerrainGenerator : MonoBehaviour
                 = biomeDomainWarping.GenerateDomainOffsetInt(biomeCenters[i].x, biomeCenters[i].y);
             biomeCenters[i] += new Vector3Int(domainWarpingOffset.x, 0, domainWarpingOffset.y);
         }
-        biomeNoise = CalculateBiomeNoise(biomeCenters, mapSeedOffset);
+        biomeTempNoise = CalculateBiomeTempNoise(biomeCenters, mapSeedOffset);
+        biomeHumiNoise = CalculateBiomeHumiNoise(biomeCenters, mapSeedOffset);
     }
 
-    private List<float> CalculateBiomeNoise(List<Vector3Int> biomeCenters, Vector2Int mapSeedOffset)
+    private List<float> CalculateBiomeTempNoise(List<Vector3Int> biomeCenters, Vector2Int mapSeedOffset)
     {
-        biomeNoiseSettings.worldOffset = mapSeedOffset;
-        return biomeCenters.Select(center => MyNoise.OctavePerlin(center.x, center.y, biomeNoiseSettings)).ToList();
+        biomeNoiseTempSettings.worldOffset = mapSeedOffset;
+        return biomeCenters.Select(center => MyNoise.OctavePerlin(center.x, center.z, biomeNoiseTempSettings)).ToList();
+    }
+
+    private List<float> CalculateBiomeHumiNoise(List<Vector3Int> biomeCenters, Vector2Int mapSeedOffset)
+    {
+        biomeNoiseHumiSettings.worldOffset = mapSeedOffset;
+        return biomeCenters.Select(center => MyNoise.OctavePerlin(center.x, center.z, biomeNoiseHumiSettings)).ToList();
     }
 
     private void OnDrawGizmos()
@@ -137,7 +150,10 @@ public struct BiomeData
 {
     [Range(0f, 1f)]
     public float temperatureStartThreshold, temperatureEndThreshold;
-    public BiomeGenerator biomeTerrainGenerator;
+	[Range(0f, 1f)]
+	public float humidityStartThreshold, humidityEndThreshold;
+	public int minHeight, maxHeight;
+	public BiomeGenerator biomeTerrainGenerator;
 }
 
 public class BiomeGeneratorSelection

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,4 +21,15 @@ public class NoiseSettings : ScriptableObject
 	public bool visualizeInEditor = true;
 	public float visualizationScale = 1.0f;
 
+	public event Action OnSettingsUpdated;
+
+	public void NotifySettingsUpdated()
+	{
+		OnSettingsUpdated?.Invoke();
+	}
+
+	private void OnValidate()
+	{
+		NotifySettingsUpdated();
+	}
 }

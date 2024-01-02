@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659e71c10a9785e4ca6610234b347e2c, type: 3}
   m_Name: NoiseSettings 1
   m_EditorClassIdentifier: 
-  noiseZoom: 0.01
-  octaves: 5
+  noiseZoom: 0.02
+  octaves: 1
   offset: {x: 0, y: 0}
-  worldOffset: {x: 2803, y: 1809}
-  persistance: 0.5
-  redistributionModifier: 1.2
+  worldOffset: {x: 8980, y: 1941}
+  persistance: 1
+  redistributionModifier: 1
   exponent: 4
-  visualizeInEditor: 0
+  visualizeInEditor: 1
   visualizationScale: 1

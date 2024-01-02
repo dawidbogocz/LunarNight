@@ -12,6 +12,10 @@ public class NoiseVisualization : MonoBehaviour
 
 	void Start()
 	{
+		if (noiseSettings != null)
+		{
+			noiseSettings.OnSettingsUpdated += VisualizeAndUpdate;
+		}
 		VisualizeAndUpdate();
 	}
 
@@ -49,6 +53,14 @@ public class NoiseVisualization : MonoBehaviour
 		if (visualizationPlane != null)
 		{
 			Destroy(visualizationPlane);
+		}
+	}
+
+	void OnDestroy()
+	{
+		if (noiseSettings != null)
+		{
+			noiseSettings.OnSettingsUpdated -= VisualizeAndUpdate;
 		}
 	}
 }
