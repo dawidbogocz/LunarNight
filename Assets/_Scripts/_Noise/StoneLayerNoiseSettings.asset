@@ -10,51 +10,60 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 659e71c10a9785e4ca6610234b347e2c, type: 3}
-  m_Name: BiomeHumidityNoiseSettings
+  m_Name: StoneLayerNoiseSettings
   m_EditorClassIdentifier: 
-  noiseZoom: 0.001
+  noiseZoom: 0.03
   octaves: 3
-  worldOffset: {x: 800, y: 5899}
-  persistence: 0.362
-  lacunarity: 2.23
+  worldOffset: {x: 8266, y: 6300}
+  persistence: 0
+  lacunarity: 1
   frequencyModifierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.47584534
-      value: -0.59939575
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: -0.34022373
-      value: 0.30549693
-      inSlope: 0.99389124
-      outSlope: 0.99389124
-      tangentMode: 0
+      time: -0.914516
+      value: 0.7578429
+      inSlope: -2.0422752
+      outSlope: -2.0422752
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.006057635
-      value: -0.24753264
-      inSlope: -1.5338128
-      outSlope: -1.5338128
-      tangentMode: 0
+      time: -0.72372854
+      value: 0.36820245
+      inSlope: -1.4244155
+      outSlope: -1.4244155
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.73157
-      value: -0.832152
-      inSlope: 0.3091738
-      outSlope: 0.3091738
-      tangentMode: 0
+      time: -0.46020067
+      value: 0.15565251
+      inSlope: -1.1686618
+      outSlope: -1.1686618
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: -0.28347397
+      value: -0.11487502
+      inSlope: -1.270926
+      outSlope: -1.270926
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.0070610046
+      value: -0.40863037
+      inSlope: -0.12320144
+      outSlope: -0.12320144
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2

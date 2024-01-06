@@ -19,34 +19,37 @@ public static class MyNoise
 		return (int)RemapValue01(value, outputMin, outputMax);
 	}
 
-	public static float Redistribution(float noise, NoiseSettings settings)
-	{
-		return Mathf.Pow(noise * settings.redistributionModifier, settings.exponent);
-	}
 
 	public static float OctavePerlin(float x, float z, NoiseSettings settings)
 	{
-		x *= settings.noiseZoom;
-		z *= settings.noiseZoom;
-		x += settings.noiseZoom;
-		z += settings.noiseZoom;
-
 		float total = 0;
 		float frequency = 1;
 		float amplitude = 1;
-		float amplitudeSum = 0;  // Used for normalizing result to 0.0 - 1.0 range
+		float maxAmplitude = 0; // Used for normalizing result to 0.0 - 1.0
+
+		x *= settings.noiseZoom;
+		z *= settings.noiseZoom;
+
 		for (int i = 0; i < settings.octaves; i++)
 		{
-			total += Mathf.PerlinNoise((settings.offset.x + settings.worldOffset.x + x) * frequency, (settings.offset.y + settings.worldOffset.y + z) * frequency) * amplitude;
+			float sampleX = x * frequency + settings.worldOffset.x;
+			float sampleZ = z * frequency + settings.worldOffset.y;
+			float noise = Mathf.PerlinNoise(sampleX, sampleZ) * 2 - 1; // Shift to range [-1, 1]
+			total += noise * amplitude;
 
-			amplitudeSum += amplitude;
+			maxAmplitude += amplitude;
 
-			amplitude *= settings.persistance;
-			frequency *= 2;
+			amplitude *= settings.persistence;
+			frequency *= settings.lacunarity;
 		}
 
-		return total / amplitudeSum;
+		float rawNoiseValue = total / maxAmplitude;
+		// Apply frequency modifier curve to allow for non-linear transformations
+		float modifiedNoiseValue = settings.frequencyModifierCurve.Evaluate(rawNoiseValue);
+
+		return Mathf.Clamp01((modifiedNoiseValue + 1) / 2); // Normalize to [0, 1]
 	}
+
 	public static void VisualizeNoise(NoiseSettings settings, int width, int height, GameObject visualizationPlane = null)
 	{
 		Texture2D texture = new Texture2D(width, height);

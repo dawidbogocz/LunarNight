@@ -12,12 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659e71c10a9785e4ca6610234b347e2c, type: 3}
   m_Name: TreeNoiseSettings
   m_EditorClassIdentifier: 
-  noiseZoom: 0.02
-  octaves: 1
-  offset: {x: 0, y: 0}
-  worldOffset: {x: 2803, y: 1809}
-  persistance: 0.01
-  redistributionModifier: 1.2
-  exponent: 4
+  noiseZoom: 0.1
+  octaves: 4
+  worldOffset: {x: 9692, y: 1593}
+  persistence: 0.304
+  lacunarity: 1
+  frequencyModifierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.093559265
+      value: 0.044799805
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.56134033
+      value: 0.929245
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   visualizeInEditor: 0
   visualizationScale: 1

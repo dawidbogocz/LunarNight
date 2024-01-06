@@ -5,151 +5,130 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    public BiomeGenerator biomeGenerator;
+	public BiomeGenerator biomeGenerator;
 
-    [SerializeField]
-    List<Vector3Int> biomeCenters = new List<Vector3Int>();
-    List<float> biomeTempNoise = new List<float>();
-    List<float> biomeHumiNoise = new List<float>();
+	[SerializeField]
+	List<Vector3Int> biomeCenters = new List<Vector3Int>();
+	List<float> biomeTempNoise = new List<float>();
+	List<float> biomeHumiNoise = new List<float>();
 
-    [SerializeField]
-    private NoiseSettings biomeNoiseTempSettings;
+	[SerializeField]
+	private NoiseSettings biomeNoiseTempSettings;
 
 	[SerializeField]
 	private NoiseSettings biomeNoiseHumiSettings;
 
 	public DomainWarping biomeDomainWarping;
 
-    [SerializeField]
-    private List<BiomeData> biomeGeneratorsData = new List<BiomeData>();
+	[SerializeField]
+	private List<BiomeData> biomeGeneratorsData = new List<BiomeData>();
 
 
-    public ChunkData GenerateChunkData(ChunkData data, Vector2Int mapSeedOffset)
-    {
-        BiomeGeneratorSelection biomeSelection = SelectBiomeGenerator(data.worldPosition, data, false);
-        //TreeData treeData = biomeGenerator.GetTreeData(data, mapSeedOffset);
-        data.treeData = biomeSelection.biomeGenerator.GetTreeData(data, mapSeedOffset);
-        for (int x = 0; x < data.chunkSize; x++)
-        {
-            for (int z = 0; z < data.chunkSize; z++)
-            {
-                biomeSelection = SelectBiomeGenerator(new Vector3Int(data.worldPosition.x + x, 0, data.worldPosition.z + z), data);
-                data = biomeSelection.biomeGenerator.ProcessChunkColumn(data, x, z, mapSeedOffset, biomeSelection.terrainSurfaceNoise);
-            }
-        }
-        return data;
-    }
-
-    private BiomeGeneratorSelection SelectBiomeGenerator(Vector3Int worldPosition, ChunkData data, bool useDomainWarping = true)
-    {
-        if (useDomainWarping == true)
-        {
-            Vector2Int domainOffset = Vector2Int.RoundToInt(biomeDomainWarping.GenerateDomainOffset(worldPosition.x, worldPosition.z));
-            worldPosition += new Vector3Int(domainOffset.x, 0, domainOffset.y);
-        }
-
-        List<BiomeSelectionHelper> biomeSelectionHelpers = GetBiomeGeneratorSelectionHelpers(worldPosition);
-        BiomeGenerator generator_1 = SelectBiome(biomeSelectionHelpers[0].Index);
-        BiomeGenerator generator_2 = SelectBiome(biomeSelectionHelpers[1].Index);
-
-        float distance = 
-            Vector3.Distance(
-                biomeCenters[biomeSelectionHelpers[0].Index], 
-                biomeCenters[biomeSelectionHelpers[1].Index]);
-        float weight_0 = biomeSelectionHelpers[0].Distance / distance;
-        float weight_1 = 1 - weight_0;
-        int terrainHeightNoise_0 = generator_1.GetSurfaceHeightNoise(worldPosition.x, worldPosition.z, data.chunkHeight);
-        int terrainHeightNoise_1 = generator_2.GetSurfaceHeightNoise(worldPosition.x, worldPosition.z, data.chunkHeight);
-		// Instead of a hard switch, interpolate between the two closest biome generators based on distance.
-		float normalizedDistance = weight_0 / (weight_0 + weight_1); // Ensure the sum is normalized to 1.
-		float blendFactor = Mathf.SmoothStep(0.0f, 1.0f, normalizedDistance); // Use SmoothStep for a smoother transition.
-
-		// Blend the terrain height noise between the two closest biomes.
-		int blendedTerrainHeightNoise = Mathf.RoundToInt(
-			Mathf.Lerp(terrainHeightNoise_0, terrainHeightNoise_1, blendFactor)
-		);
-
-		return new BiomeGeneratorSelection(generator_1, blendedTerrainHeightNoise);
+	public ChunkData GenerateChunkData(ChunkData data, Vector2Int mapSeedOffset)
+	{
+		biomeNoiseTempSettings.worldOffset = mapSeedOffset;
+		biomeNoiseHumiSettings.worldOffset = mapSeedOffset;
+		BiomeGeneratorSelection biomeSelection = SelectBiomeGenerator(data.worldPosition, data, false);
+		//TreeData treeData = biomeGenerator.GetTreeData(data, mapSeedOffset);
+		data.treeData = biomeSelection.biomeGenerator.GetTreeData(data, mapSeedOffset);
+		for (int x = 0; x < data.chunkSize; x++)
+		{
+			for (int z = 0; z < data.chunkSize; z++)
+			{
+				biomeSelection = SelectBiomeGenerator(new Vector3Int(data.worldPosition.x + x, 0, data.worldPosition.z + z), data);
+				data = biomeSelection.biomeGenerator.ProcessChunkColumn(data, x, z, mapSeedOffset, biomeSelection.terrainSurfaceNoise);
+			}
+		}
+		return data;
 	}
 
-    private BiomeGenerator SelectBiome(int index)
-    {
-        float temp = biomeTempNoise[index];
-		float humidity = biomeHumiNoise[index];
+	private BiomeGeneratorSelection SelectBiomeGenerator(Vector3Int worldPosition, ChunkData data, bool useDomainWarping = true)
+	{
+		if (useDomainWarping)
+		{
+			Vector2Int domainOffset = Vector2Int.RoundToInt(biomeDomainWarping.GenerateDomainOffset(worldPosition.x, worldPosition.z));
+			worldPosition += new Vector3Int(domainOffset.x, 0, domainOffset.y);
+		}
+
+		// Get temperature and humidity noise at the position
+		float tempNoise = MyNoise.OctavePerlin(worldPosition.x, worldPosition.z, biomeNoiseTempSettings);
+		float humiNoise = MyNoise.OctavePerlin(worldPosition.x, worldPosition.z, biomeNoiseHumiSettings);
+
+		// Find the main biome and its neighbors based on noise
+		var mainBiome = SelectBiomeByNoise(tempNoise, humiNoise);
+		var neighborBiomes = FindNeighborBiomes(worldPosition, tempNoise, humiNoise);
+
+		// Blend terrain height across main and neighbor biomes
+		float blendedHeight = BlendTerrainHeight(mainBiome, neighborBiomes, worldPosition, data);
+
+		// Return the biome generator selection with blended height
+		return new BiomeGeneratorSelection(mainBiome, Mathf.RoundToInt(blendedHeight));
+	}
+
+	private float BlendTerrainHeight(BiomeGenerator mainBiome, List<BiomeGenerator> neighbors, Vector3Int worldPosition, ChunkData data)
+	{
+		float mainHeight = mainBiome.GetSurfaceHeightNoise(worldPosition.x, worldPosition.z, data.chunkHeight);
+		float blendedHeight = mainHeight;
+		float totalWeight = 1f;
+
+		foreach (var neighbor in neighbors)
+		{
+			// Calculate distance-based weight (can be adjusted or based on other factors)
+			float weight = 10f; // Adjust this based on your specific requirements
+
+			float neighborHeight = neighbor.GetSurfaceHeightNoise(worldPosition.x, worldPosition.z, data.chunkHeight);
+			blendedHeight += neighborHeight * weight;
+			totalWeight += weight;
+		}
+
+		return blendedHeight / totalWeight; // Return the average height based on weights
+	}
+
+	private List<BiomeGenerator> FindNeighborBiomes(Vector3Int worldPosition, float tempNoise, float humiNoise)
+	{
+		List<BiomeGenerator> neighbors = new List<BiomeGenerator>();
+
+		// Define ranges for finding neighboring biomes. These ranges can be adjusted.
+		float tempRange = 0.82f; // Example range for temperature
+		float humiRange = 0.82f; // Example range for humidity
+
+		// Check neighboring noise values within the defined range
 		foreach (var data in biomeGeneratorsData)
-        {
+		{
+			if ((tempNoise + tempRange >= data.temperatureStartThreshold && tempNoise - tempRange < data.temperatureEndThreshold) &&
+				(humiNoise + humiRange >= data.humidityStartThreshold && humiNoise - humiRange < data.humidityEndThreshold))
+			{
+				BiomeGenerator biomeGen = data.biomeTerrainGenerator;
+				if (!neighbors.Contains(biomeGen))
+				{
+					neighbors.Add(biomeGen);
+				}
+			}
+		}
+
+		return neighbors;
+	}
+
+	private BiomeGenerator SelectBiomeByNoise(float temp, float humidity)
+	{
+		foreach (var data in biomeGeneratorsData)
+		{
 			if (temp >= data.temperatureStartThreshold && temp < data.temperatureEndThreshold
-			&& humidity >= data.humidityStartThreshold && humidity < data.humidityEndThreshold)
+				&& humidity >= data.humidityStartThreshold && humidity < data.humidityEndThreshold)
+			{
 				return data.biomeTerrainGenerator;
+			}
 		}
 		return biomeGeneratorsData[0].biomeTerrainGenerator;
 	}
 
-    private List<BiomeSelectionHelper> GetBiomeGeneratorSelectionHelpers(Vector3Int position)
-    {
-        position.y = 0;
-        return GetClosestBiomeIndex(position);
-    }
-
-    private List<BiomeSelectionHelper> GetClosestBiomeIndex(Vector3Int position)
-    {
-        return biomeCenters.Select((center, index) =>
-        new BiomeSelectionHelper
-        {
-            Index = index,
-            Distance = Vector3.Distance(center, position)
-        }).OrderBy(helper => helper.Distance).Take(4).ToList();
-    }
-
-    private struct BiomeSelectionHelper
-    {
-        public int Index;
-        public float Distance;
-    }
-
-    public void GenerateBiomePoints(Vector3 playerPosition, int drawRange, int mapSize, Vector2Int mapSeedOffset)
-    {
-        biomeCenters = new List<Vector3Int>();
-        biomeCenters = BiomeCenterFinder.CalculateBiomeCenters(playerPosition, drawRange, mapSize);
-
-        for (int i = 0; i < biomeCenters.Count; i++)
-        {
-            Vector2Int domainWarpingOffset
-                = biomeDomainWarping.GenerateDomainOffsetInt(biomeCenters[i].x, biomeCenters[i].y);
-            biomeCenters[i] += new Vector3Int(domainWarpingOffset.x, 0, domainWarpingOffset.y);
-        }
-        biomeTempNoise = CalculateBiomeTempNoise(biomeCenters, mapSeedOffset);
-        biomeHumiNoise = CalculateBiomeHumiNoise(biomeCenters, mapSeedOffset);
-    }
-
-    private List<float> CalculateBiomeTempNoise(List<Vector3Int> biomeCenters, Vector2Int mapSeedOffset)
-    {
-        biomeNoiseTempSettings.worldOffset = mapSeedOffset;
-        return biomeCenters.Select(center => MyNoise.OctavePerlin(center.x, center.z, biomeNoiseTempSettings)).ToList();
-    }
-
-    private List<float> CalculateBiomeHumiNoise(List<Vector3Int> biomeCenters, Vector2Int mapSeedOffset)
-    {
-        biomeNoiseHumiSettings.worldOffset = mapSeedOffset;
-        return biomeCenters.Select(center => MyNoise.OctavePerlin(center.x, center.z, biomeNoiseHumiSettings)).ToList();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-
-        foreach (var biomCenterPoint in biomeCenters)
-        {
-            Gizmos.DrawLine(biomCenterPoint, biomCenterPoint + Vector3.up * 255);
-        }
-    }
 }
 
 [Serializable]
 public struct BiomeData
 {
-    [Range(0f, 1f)]
-    public float temperatureStartThreshold, temperatureEndThreshold;
+	[Range(0f, 1f)]
+	public float temperatureStartThreshold, temperatureEndThreshold;
 	[Range(0f, 1f)]
 	public float humidityStartThreshold, humidityEndThreshold;
 	public int minHeight, maxHeight;
@@ -158,12 +137,12 @@ public struct BiomeData
 
 public class BiomeGeneratorSelection
 {
-    public BiomeGenerator biomeGenerator = null;
-    public int? terrainSurfaceNoise = null;
+	public BiomeGenerator biomeGenerator = null;
+	public int? terrainSurfaceNoise = null;
 
-    public BiomeGeneratorSelection(BiomeGenerator biomeGeneror, int? terrainSurfaceNoise = null)
-    {
-        this.biomeGenerator = biomeGeneror;
-        this.terrainSurfaceNoise = terrainSurfaceNoise;
-    }
+	public BiomeGeneratorSelection(BiomeGenerator biomeGeneror, int? terrainSurfaceNoise = null)
+	{
+		this.biomeGenerator = biomeGeneror;
+		this.terrainSurfaceNoise = terrainSurfaceNoise;
+	}
 }

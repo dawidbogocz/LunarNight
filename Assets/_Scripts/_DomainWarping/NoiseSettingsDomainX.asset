@@ -12,10 +12,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659e71c10a9785e4ca6610234b347e2c, type: 3}
   m_Name: NoiseSettingsDomainX
   m_EditorClassIdentifier: 
-  noiseZoom: 0.01
-  octaves: 3
-  offest: {x: 600, y: 350}
-  worldOffset: {x: 0, y: 0}
-  persistance: 0.5
-  redistributionModifier: 1.2
-  exponent: 5
+  noiseZoom: 0.02
+  octaves: 4
+  worldOffset: {x: 400, y: 500}
+  persistence: 0.488
+  lacunarity: 1.52
+  frequencyModifierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.2850876
+      value: -0.07672119
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.06168205
+      value: 0.21117915
+      inSlope: 1.8382784
+      outSlope: 1.8382784
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2698481
+      value: 0.6492949
+      inSlope: 1.1844072
+      outSlope: 1.1844072
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.35624114
+      value: 0.7419697
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  visualizeInEditor: 1
+  visualizationScale: 1
