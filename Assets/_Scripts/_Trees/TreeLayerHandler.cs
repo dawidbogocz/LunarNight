@@ -63,6 +63,7 @@ public class TreeLayerHandler : BlockLayerHandler
                     chunkCoordinates.y = surfaceHeightNoise + i;
                     Chunk.SetBlock(chunkData, chunkCoordinates, BlockType.TreeTrunk);
                 }
+
                 foreach (Vector3Int leafPosition in treeLeafesStaticLayout)
                 {
                     chunkData.treeData.treeLeafesSolid.Add(new Vector3Int(x + leafPosition.x, surfaceHeightNoise + 5 + leafPosition.y, z + leafPosition.z));

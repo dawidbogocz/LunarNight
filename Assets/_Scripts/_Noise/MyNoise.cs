@@ -49,6 +49,31 @@ public static class MyNoise
 
 		return Mathf.Clamp01((modifiedNoiseValue + 1) / 2); // Normalize to [0, 1]
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public static float Noise3D(float x, float y, float z, float frequency, float amplitude, float persistence, int octaves, int seed)
+	{
+		float noise = 0.0f;
+
+		for (int i = 0; i < octaves; ++i)
+		{
+			float noiseXY = Mathf.PerlinNoise(x * frequency + seed, y * frequency + seed) * amplitude;
+			float noiseXZ = Mathf.PerlinNoise(x * frequency + seed, z * frequency + seed) * amplitude;
+			float noiseYZ = Mathf.PerlinNoise(y * frequency + seed, z * frequency + seed) * amplitude;
+			float noiseYX = Mathf.PerlinNoise(y * frequency + seed, x * frequency + seed) * amplitude;
+			float noiseZX = Mathf.PerlinNoise(z * frequency + seed, x * frequency + seed) * amplitude;
+			float noiseZY = Mathf.PerlinNoise(z * frequency + seed, y * frequency + seed) * amplitude;
+
+			noise += (noiseXY + noiseXZ + noiseYZ + noiseYX + noiseZX + noiseZY) / 6.0f;
+
+			amplitude *= persistence;
+			frequency *= 2.0f;
+		}
+
+		return noise / octaves;
+	}
+>>>>>>> Stashed changes
 
 	public static void VisualizeNoise(NoiseSettings settings, int width, int height, GameObject visualizationPlane = null)
 	{
