@@ -15,38 +15,9 @@ public static class WorldDataHelper
         };
     }
 
-    internal static List<Vector3Int> GetChunkPositionsAroundPlayer(World world, Vector3Int playerPosition)
-    {
-        int startX = playerPosition.x - (world.chunkDrawingRange) * world.chunkSize;
-        int startZ = playerPosition.z - (world.chunkDrawingRange) * world.chunkSize;
-        int endX = playerPosition.x + (world.chunkDrawingRange) * world.chunkSize;
-        int endZ = playerPosition.z + (world.chunkDrawingRange) * world.chunkSize;
+	
 
-        List<Vector3Int> chunkPositionsToCreate = new List<Vector3Int>();
-        for (int x = startX; x <= endX; x += world.chunkSize)
-        {
-            for (int z = startZ; z <= endZ; z += world.chunkSize)
-            {
-                Vector3Int chunkPos = ChunkPositionFromBlockCoords(world, new Vector3Int(x, 0, z));
-                chunkPositionsToCreate.Add(chunkPos);
-                if (x >= playerPosition.x - world.chunkSize
-                    && x <= playerPosition.x + world.chunkSize
-                    && z >= playerPosition.z - world.chunkSize
-                    && z <= playerPosition.z + world.chunkSize)
-                {
-                    for (int y = -world.chunkHeight; y >= playerPosition.y - world.chunkHeight * 2; y -= world.chunkHeight)
-                    {
-                        chunkPos = ChunkPositionFromBlockCoords(world, new Vector3Int(x, y, z));
-                        chunkPositionsToCreate.Add(chunkPos);
-                    }
-                }
-            }
-        }
-
-        return chunkPositionsToCreate;
-    }
-
-    internal static void RemoveChunkData(World world, Vector3Int pos)
+	internal static void RemoveChunkData(World world, Vector3Int pos)
     {
         world.worldData.chunkDataDictionary.Remove(pos);
     }
@@ -60,39 +31,36 @@ public static class WorldDataHelper
             world.worldData.chunkDictionary.Remove(pos);
         }
     }
-
+    internal static List<Vector3Int> GetChunkPositionsAroundPlayer(World world, Vector3Int playerPosition)
+    {
+		return GetPositionsAroundPlayer(world, playerPosition, world.chunkDrawingRange);
+	}
     internal static List<Vector3Int> GetDataPositionsAroundPlayer(World world, Vector3Int playerPosition)
     {
-        int startX = playerPosition.x - (world.chunkDrawingRange + 1) * world.chunkSize;
-        int startZ = playerPosition.z - (world.chunkDrawingRange + 1) * world.chunkSize;
-        int endX = playerPosition.x + (world.chunkDrawingRange + 1) * world.chunkSize;
-        int endZ = playerPosition.z + (world.chunkDrawingRange + 1) * world.chunkSize;
+		return GetPositionsAroundPlayer(world, playerPosition, world.chunkDrawingRange + 1);
+	}
 
-        List<Vector3Int> chunkDataPositionsToCreate = new List<Vector3Int>();
-        for (int x = startX; x <= endX; x += world.chunkSize)
-        {
-            for (int z = startZ; z <= endZ; z += world.chunkSize)
-            {
-                Vector3Int chunkPos = ChunkPositionFromBlockCoords(world, new Vector3Int(x, 0, z));
-                chunkDataPositionsToCreate.Add(chunkPos);
-                if (x >= playerPosition.x - world.chunkSize
-                    && x <= playerPosition.x + world.chunkSize
-                    && z >= playerPosition.z - world.chunkSize
-                    && z <= playerPosition.z + world.chunkSize)
-                {
-                    for (int y = -world.chunkHeight; y >= playerPosition.y - world.chunkHeight * 2; y -= world.chunkHeight)
-                    {
-                        chunkPos = ChunkPositionFromBlockCoords(world, new Vector3Int(x, y, z));
-                        chunkDataPositionsToCreate.Add(chunkPos);
-                    }
-                }
-            }
-        }
+	private static List<Vector3Int> GetPositionsAroundPlayer(World world, Vector3Int playerPosition, int drawingRange)
+	{
+		int startX = playerPosition.x - drawingRange * world.chunkSize;
+		int startZ = playerPosition.z - drawingRange * world.chunkSize;
+		int endX = playerPosition.x + drawingRange * world.chunkSize;
+		int endZ = playerPosition.z + drawingRange * world.chunkSize;
 
-        return chunkDataPositionsToCreate;
-    }
+		List<Vector3Int> positions = new List<Vector3Int>();
 
-    internal static ChunkRenderer GetChunk(World worldReference, Vector3Int worldPosition)
+		for (int x = startX; x <= endX; x += world.chunkSize)
+		{
+			for (int z = startZ; z <= endZ; z += world.chunkSize)
+			{
+				Vector3Int chunkPos = ChunkPositionFromBlockCoords(world, new Vector3Int(x, 0, z));
+				positions.Add(chunkPos);
+			}
+		}
+		return positions;	
+	}
+
+	internal static ChunkRenderer GetChunk(World worldReference, Vector3Int worldPosition)
     {
         if (worldReference.worldData.chunkDictionary.ContainsKey(worldPosition))
             return worldReference.worldData.chunkDictionary[worldPosition];

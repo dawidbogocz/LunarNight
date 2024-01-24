@@ -11,37 +11,27 @@ public class UndergroundLayerHandler : BlockLayerHandler
 	{
 		Vector3Int pos = new Vector3Int(x, y - chunkData.worldPosition.y, z);
 
-		
-		if (y < surfaceHeightNoise)
+		if (y < surfaceHeightNoise - 5)
 		{
-			if(y < surfaceHeightNoise - 10)
-			{
-				if (IsCavePoint(pos + chunkData.worldPosition, mapSeedOffset))
-				{
-					// Set block to Air if it's part of a cave
-					Chunk.SetBlock(chunkData, pos, caveBlockType);
-				}
-				else
-				{
-					// Handle different underground block types here based on depth or other conditions
-					Chunk.SetBlock(chunkData, pos, DetermineUndergroundBlockType(y, surfaceHeightNoise));
-				}
-			}
-			else
-			{
-				// Handle different underground block types here based on depth or other conditions
-				Chunk.SetBlock(chunkData, pos, DetermineUndergroundBlockType(y, surfaceHeightNoise));
-			}
+			// Consider caching IsCavePoint results if they are used multiple times for the same position
+			bool isCave = IsCavePoint(pos + chunkData.worldPosition, mapSeedOffset);
 
+			Chunk.SetBlock(chunkData, pos, isCave ? caveBlockType : DetermineUndergroundBlockType(y, surfaceHeightNoise));
+			return true;
+		}
+		else if (y < surfaceHeightNoise)
+		{
+			Chunk.SetBlock(chunkData, pos, DetermineUndergroundBlockType(y, surfaceHeightNoise));
 			return true;
 		}
 		return false;
 	}
 
+
 	private BlockType DetermineUndergroundBlockType(int y, int surfaceHeightNoise)
 	{
 		// Example: Choose different block types based on depth
-		if (y < surfaceHeightNoise - 10)
+		if (y < surfaceHeightNoise - 5)
 		{
 			return BlockType.Stone; // Example block type for deeper underground
 		}

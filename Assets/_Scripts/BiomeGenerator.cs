@@ -60,7 +60,7 @@ public class BiomeGenerator : MonoBehaviour
             terrainHeight = domainWarping.GenerateDomainNoise(x, z, biomeNoiseSettings);
         }
 
-        int surfaceHeight = MyNoise.RemapValue01ToInt(terrainHeight, -10, chunkHeight -10);
+        int surfaceHeight = MyNoise.RemapValue01ToInt(terrainHeight, 0, chunkHeight);
         return surfaceHeight;
     }
 }

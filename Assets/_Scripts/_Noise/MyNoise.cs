@@ -49,8 +49,7 @@ public static class MyNoise
 
 		return Mathf.Clamp01((modifiedNoiseValue + 1) / 2); // Normalize to [0, 1]
 	}
-<<<<<<< Updated upstream
-=======
+
 	
 	public static float Noise3D(float x, float y, float z, float frequency, float amplitude, float persistence, int octaves, int seed)
 	{
@@ -73,7 +72,7 @@ public static class MyNoise
 
 		return noise / octaves;
 	}
->>>>>>> Stashed changes
+
 
 	public static void VisualizeNoise(NoiseSettings settings, int width, int height, GameObject visualizationPlane = null)
 	{

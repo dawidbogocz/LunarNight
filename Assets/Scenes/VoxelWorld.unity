@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapSizeInChunks: 10
   chunkSize: 16
-  chunkHeight: 150
+  chunkHeight: 100
   chunkDrawingRange: 16
   chunkPrefab: {fileID: 4443192061081385954, guid: 1c00b035e263f934a9711fcf71e3336a, type: 3}
   worldRenderer: {fileID: 510824711}
@@ -391,6 +391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 3
+  caveBlockType: 1
 --- !u!1 &243904910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 3
+  caveBlockType: 1
 --- !u!4 &598011805
 Transform:
   m_ObjectHideFlags: 0
@@ -1561,6 +1563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 3
+  caveBlockType: 1
 --- !u!4 &762385700
 Transform:
   m_ObjectHideFlags: 0
@@ -1730,7 +1733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &851589583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1743,7 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5e211d467ece5488d818aed6032ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseSettings: {fileID: 11400000, guid: 68244425c6d3d8649b6a530424f39ec6, type: 2}
+  noiseSettings: {fileID: 11400000, guid: a14a390db764b6241bdd621a004b788f, type: 2}
   visualizationWidth: 256
   visualizationHeight: 256
 --- !u!23 &851589584
@@ -2300,6 +2303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 3
+  caveBlockType: 1
 --- !u!1 &1207427692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3081,6 +3085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 10
+  caveBlockType: 1
 --- !u!4 &1776337885
 Transform:
   m_ObjectHideFlags: 0
@@ -3384,10 +3389,10 @@ MonoBehaviour:
   biomeNoiseHumiSettings: {fileID: 11400000, guid: 9d40f143c575eda4ab98562d26eac5fc, type: 2}
   biomeDomainWarping: {fileID: 1985401116}
   biomeGeneratorsData:
-  - temperatureStartThreshold: 0.071
-    temperatureEndThreshold: 0.456
-    humidityStartThreshold: 0.6
-    humidityEndThreshold: 0.922
+  - temperatureStartThreshold: 0.316
+    temperatureEndThreshold: 0.664
+    humidityStartThreshold: 0.308
+    humidityEndThreshold: 0.652
     minHeight: 0
     maxHeight: 200
     biomeTerrainGenerator: {fileID: 1804736596}
@@ -3398,10 +3403,10 @@ MonoBehaviour:
     minHeight: 0
     maxHeight: 80
     biomeTerrainGenerator: {fileID: 1954868004}
-  - temperatureStartThreshold: 0.4
+  - temperatureStartThreshold: 0.624
     temperatureEndThreshold: 1
     humidityStartThreshold: 0
-    humidityEndThreshold: 0.597
+    humidityEndThreshold: 0.341
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 427967137}
@@ -3413,23 +3418,23 @@ MonoBehaviour:
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 436770387}
   - temperatureStartThreshold: 0
-    temperatureEndThreshold: 0.545
+    temperatureEndThreshold: 0.308
     humidityStartThreshold: 0.147
-    humidityEndThreshold: 0.712
+    humidityEndThreshold: 0.539
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 895782036}
-  - temperatureStartThreshold: 0.455
-    temperatureEndThreshold: 0.756
-    humidityStartThreshold: 0.448
-    humidityEndThreshold: 0.757
+  - temperatureStartThreshold: 0.532
+    temperatureEndThreshold: 0.858
+    humidityStartThreshold: 0.518
+    humidityEndThreshold: 0.853
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 547982874}
   - temperatureStartThreshold: 0
     temperatureEndThreshold: 0.308
     humidityStartThreshold: 0
-    humidityEndThreshold: 0.334
+    humidityEndThreshold: 0.308
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 317333830}
@@ -3607,6 +3612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 10
+  caveBlockType: 1
 --- !u!1 &2134709681
 GameObject:
   m_ObjectHideFlags: 0
@@ -3653,3 +3659,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   undergroundBlockType: 3
+  caveBlockType: 1

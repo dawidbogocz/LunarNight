@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseZoom: 0.01
   octaves: 6
-  worldOffset: {x: 800, y: 5899}
+  worldOffset: {x: 7132, y: 7799}
   persistence: 0.552
   lacunarity: 1.76
   frequencyModifierCurve:

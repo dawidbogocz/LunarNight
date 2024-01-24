@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float gravityValue = -9.81f;
     [SerializeField]
-    private float flySpeed = 2;
+    private float flySpeed = 2.0f;
 
     private Vector3 playerVelocity;
 
@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         {
             movementDirection -= Vector3.up * flySpeed;
         }
-        controller.Move(movementDirection * playerSpeed * Time.deltaTime);
+        controller.Move(movementDirection * playerRunSpeed * Time.deltaTime);
     }
 
     public void Walk(Vector3 movementInput, bool runningInput)

@@ -42,9 +42,17 @@ public class ChunkRenderer : MonoBehaviour
 
     private void RenderMesh(MeshData meshData)
     {
-        mesh.Clear();
+		if (mesh == null)
+		{
+			mesh = new Mesh();
+			meshFilter.mesh = mesh;
+		}
+		else
+		{
+			mesh.Clear();
+		}
 
-        mesh.subMeshCount = 2;
+		mesh.subMeshCount = 2;
         mesh.vertices = meshData.vertices.Concat(meshData.waterMesh.vertices).ToArray();
 
         mesh.SetTriangles(meshData.triangles.ToArray(), 0);
