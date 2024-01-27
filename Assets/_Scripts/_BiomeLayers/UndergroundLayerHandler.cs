@@ -11,7 +11,7 @@ public class UndergroundLayerHandler : BlockLayerHandler
 	{
 		Vector3Int pos = new Vector3Int(x, y - chunkData.worldPosition.y, z);
 
-		if (y < surfaceHeightNoise - 5)
+		if (y < surfaceHeightNoise - 5 && y != 0)
 		{
 			// Consider caching IsCavePoint results if they are used multiple times for the same position
 			bool isCave = IsCavePoint(pos + chunkData.worldPosition, mapSeedOffset);
@@ -22,7 +22,12 @@ public class UndergroundLayerHandler : BlockLayerHandler
 		else if (y < surfaceHeightNoise)
 		{
 			Chunk.SetBlock(chunkData, pos, DetermineUndergroundBlockType(y, surfaceHeightNoise));
-			return true;
+			if (y == 0)
+			{
+				Chunk.SetBlock(chunkData, pos, BlockType.Bedrock);
+				return true;
+			}
+
 		}
 		return false;
 	}

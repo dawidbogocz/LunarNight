@@ -15,5 +15,6 @@ public enum BlockType
     TreeLeafsSolid,
     Water,
     Bedrock,
-    Sand
+    Sand,
+    Snow
 }

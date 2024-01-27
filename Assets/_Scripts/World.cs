@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 public class World : MonoBehaviour
@@ -288,8 +289,6 @@ public class World : MonoBehaviour
         public List<Vector3Int> chunkDataToRemove;
         public List<Vector3Int> chunkPositionsToUpdate;
     }
-
-    
 }
 public struct WorldData
 {
@@ -297,5 +296,13 @@ public struct WorldData
     public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
     public int chunkSize;
     public int chunkHeight;
+
+	public World World
+	{
+		get => default;
+		set
+		{
+		}
+	}
 }
 
