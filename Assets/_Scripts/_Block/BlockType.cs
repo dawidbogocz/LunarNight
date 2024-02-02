@@ -11,10 +11,13 @@ public enum BlockType
     Grass_Stone,
     Stone,
     TreeTrunk,
+	Birch_Trunk,
     TreeLeafesTransparent,
     TreeLeafsSolid,
     Water,
     Bedrock,
     Sand,
-    Snow
+    Snow,
+    Mud,
+    Cactus
 }

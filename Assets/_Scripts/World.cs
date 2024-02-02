@@ -296,13 +296,5 @@ public struct WorldData
     public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
     public int chunkSize;
     public int chunkHeight;
-
-	public World World
-	{
-		get => default;
-		set
-		{
-		}
-	}
 }
 

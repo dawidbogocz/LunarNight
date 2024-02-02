@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1168827611}
-  surfaceBlockType: 2
+  surfaceBlockType: 4
 --- !u!1 &204357395
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
-  undergroundBlockType: 3
+  undergroundBlockType: 11
   caveBlockType: 1
 --- !u!1 &243904910
 GameObject:
@@ -461,7 +461,8 @@ MonoBehaviour:
   useDomainWarping: 1
   startLayerHandler: {fileID: 1284406390}
   treeGenerator: {fileID: 317333831}
-  additionalLayerHandlers: []
+  additionalLayerHandlers:
+  - {fileID: 533221509}
 --- !u!114 &317333831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849bc00637f502849864e39567c72d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeNoiseSettings: {fileID: 11400000, guid: 9b2aeca0fc59be7428a19db48ab68542, type: 2}
+  treeNoiseSettings: {fileID: 11400000, guid: dc3169786ef4cce4dae8da6a11ccab47, type: 2}
   domainWrapping: {fileID: 317333833}
 --- !u!4 &317333832
 Transform:
@@ -492,6 +493,7 @@ Transform:
   - {fileID: 1373656983}
   - {fileID: 368912626}
   - {fileID: 762385700}
+  - {fileID: 533221510}
   m_Father: {fileID: 1985401115}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -685,7 +687,8 @@ MonoBehaviour:
   useDomainWarping: 1
   startLayerHandler: {fileID: 2040053290}
   treeGenerator: {fileID: 427967138}
-  additionalLayerHandlers: []
+  additionalLayerHandlers:
+  - {fileID: 1586261387}
 --- !u!114 &427967138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +718,7 @@ Transform:
   - {fileID: 2040053291}
   - {fileID: 711631435}
   - {fileID: 1776337885}
+  - {fileID: 1586261386}
   m_Father: {fileID: 1985401115}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1064,6 +1068,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &533221508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533221510}
+  - component: {fileID: 533221509}
+  m_Layer: 0
+  m_Name: TreeLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &533221509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533221508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c2b88a758bbc84ca38c8136b367802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Next: {fileID: 0}
+  terrainHeightLimit: 25
+--- !u!4 &533221510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533221508}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 317333832}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &547982870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,6 +1234,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1601470547}
+  - {fileID: 970293255}
   m_Father: {fileID: 1804736597}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1516,7 +1567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1776337884}
-  surfaceBlockType: 10
+  surfaceBlockType: 12
 --- !u!4 &711631435
 Transform:
   m_ObjectHideFlags: 0
@@ -1746,7 +1797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5e211d467ece5488d818aed6032ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseSettings: {fileID: 11400000, guid: a14a390db764b6241bdd621a004b788f, type: 2}
+  noiseSettings: {fileID: 11400000, guid: 9b2aeca0fc59be7428a19db48ab68542, type: 2}
   visualizationWidth: 256
   visualizationHeight: 256
 --- !u!23 &851589584
@@ -2018,7 +2069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 2128085294}
-  surfaceBlockType: 5
+  surfaceBlockType: 13
 --- !u!1 &968309193
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,13 +2140,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970293254}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1804736597}
-  m_RootOrder: 5
+  m_Father: {fileID: 578865113}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &970293256
 MonoBehaviour:
@@ -2302,7 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
-  undergroundBlockType: 3
+  undergroundBlockType: 5
   caveBlockType: 1
 --- !u!1 &1207427692
 GameObject:
@@ -2735,6 +2786,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Next: {fileID: 507782039}
   waterLevel: 15
+--- !u!1 &1586261385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1586261386}
+  - component: {fileID: 1586261387}
+  m_Layer: 0
+  m_Name: TreeLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1586261386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586261385}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 427967139}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586261387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586261385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c2b88a758bbc84ca38c8136b367802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Next: {fileID: 0}
+  terrainHeightLimit: 25
 --- !u!1 &1601470546
 GameObject:
   m_ObjectHideFlags: 0
@@ -3053,7 +3150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 204357397}
-  surfaceBlockType: 2
+  surfaceBlockType: 11
 --- !u!1 &1776337883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3084,7 +3181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
-  undergroundBlockType: 10
+  undergroundBlockType: 12
   caveBlockType: 1
 --- !u!4 &1776337885
 Transform:
@@ -3158,7 +3255,6 @@ Transform:
   - {fileID: 968309195}
   - {fileID: 598011805}
   - {fileID: 578865113}
-  - {fileID: 970293255}
   m_Father: {fileID: 1985401115}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3384,57 +3480,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   biomeGenerator: {fileID: 1804736596}
-  biomeCenters: []
   biomeNoiseTempSettings: {fileID: 11400000, guid: a14a390db764b6241bdd621a004b788f, type: 2}
   biomeNoiseHumiSettings: {fileID: 11400000, guid: 9d40f143c575eda4ab98562d26eac5fc, type: 2}
   biomeDomainWarping: {fileID: 1985401116}
   biomeGeneratorsData:
-  - temperatureStartThreshold: 0.316
-    temperatureEndThreshold: 0.664
-    humidityStartThreshold: 0.308
-    humidityEndThreshold: 0.652
+  - temperatureStartThreshold: 0.435
+    temperatureEndThreshold: 0.781
+    humidityStartThreshold: 0.47
+    humidityEndThreshold: 0.8
     minHeight: 0
     maxHeight: 200
     biomeTerrainGenerator: {fileID: 1804736596}
-  - temperatureStartThreshold: 0.391
-    temperatureEndThreshold: 0.592
-    humidityStartThreshold: 0.8
+  - temperatureStartThreshold: 0.702
+    temperatureEndThreshold: 1
+    humidityStartThreshold: 0.713
     humidityEndThreshold: 1
     minHeight: 0
     maxHeight: 80
     biomeTerrainGenerator: {fileID: 1954868004}
-  - temperatureStartThreshold: 0.624
+  - temperatureStartThreshold: 0.625
     temperatureEndThreshold: 1
     humidityStartThreshold: 0
-    humidityEndThreshold: 0.341
+    humidityEndThreshold: 0.343
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 427967137}
   - temperatureStartThreshold: 0
-    temperatureEndThreshold: 0.224
-    humidityStartThreshold: 0.73
+    temperatureEndThreshold: 0.244
+    humidityStartThreshold: 0.743
     humidityEndThreshold: 1
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 436770387}
-  - temperatureStartThreshold: 0
-    temperatureEndThreshold: 0.308
-    humidityStartThreshold: 0.147
-    humidityEndThreshold: 0.539
+  - temperatureStartThreshold: 0.194
+    temperatureEndThreshold: 0.494
+    humidityStartThreshold: 0.514
+    humidityEndThreshold: 0.821
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 895782036}
-  - temperatureStartThreshold: 0.532
-    temperatureEndThreshold: 0.858
-    humidityStartThreshold: 0.518
-    humidityEndThreshold: 0.853
-    minHeight: 0
-    maxHeight: 50
-    biomeTerrainGenerator: {fileID: 547982874}
-  - temperatureStartThreshold: 0
-    temperatureEndThreshold: 0.308
-    humidityStartThreshold: 0
-    humidityEndThreshold: 0.308
+  - temperatureStartThreshold: 0.422
+    temperatureEndThreshold: 0.766
+    humidityStartThreshold: 0.128
+    humidityEndThreshold: 0.509
     minHeight: 0
     maxHeight: 50
     biomeTerrainGenerator: {fileID: 317333830}
@@ -3611,7 +3699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
-  undergroundBlockType: 10
+  undergroundBlockType: 11
   caveBlockType: 1
 --- !u!1 &2134709681
 GameObject:

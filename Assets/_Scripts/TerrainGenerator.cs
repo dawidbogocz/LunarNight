@@ -8,11 +8,6 @@ public class TerrainGenerator : MonoBehaviour
 	public BiomeGenerator biomeGenerator;
 
 	[SerializeField]
-	List<Vector3Int> biomeCenters = new List<Vector3Int>();
-	List<float> biomeTempNoise = new List<float>();
-	List<float> biomeHumiNoise = new List<float>();
-
-	[SerializeField]
 	private NoiseSettings biomeNoiseTempSettings;
 
 	[SerializeField]
